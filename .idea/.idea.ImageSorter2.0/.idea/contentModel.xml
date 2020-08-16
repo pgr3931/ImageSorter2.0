@@ -5,13 +5,9 @@
     <e p="C:\Users\walte\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_ImageSorter2.0.893208291.00" t="ExcludeRecursive" />
     <e p="D:\IdeaProjects\RiderProjects\ImageSorter2.0" t="IncludeRecursive">
       <e p="App.config" t="Include" />
-      <e p="App.xaml" t="Include" />
-      <e p="App.xaml.cs" t="Include" />
       <e p="bin" t="ExcludeRecursive" />
       <e p="ImageSorter2.0.csproj" t="IncludeRecursive" />
       <e p="ImageSorter2.0.sln" t="IncludeFlat" />
-      <e p="MainWindow.xaml" t="Include" />
-      <e p="MainWindow.xaml.cs" t="Include" />
       <e p="obj" t="ExcludeRecursive">
         <e p="Debug" t="Include">
           <e p="App.g.cs" t="Include" />
@@ -24,6 +20,16 @@
         <e p="Resources.Designer.cs" t="Include" />
         <e p="Resources.resx" t="Include" />
       </e>
+      <e p="View" t="Include">
+        <e p="App.xaml" t="Include" />
+        <e p="App.xaml.cs" t="Include" />
+        <e p="Images" t="Include">
+          <e p="EdSRLrSUwAI1sZZ.png" t="Include" />
+        </e>
+        <e p="MainWindow.xaml" t="Include" />
+        <e p="MainWindow.xaml.cs" t="Include" />
+      </e>
+      <e p="ViewModel" t="Include" />
     </e>
   </component>
 </project>
