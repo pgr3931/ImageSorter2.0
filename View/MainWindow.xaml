@@ -1,17 +1,20 @@
-﻿<Window x:Class="ImageSorter2._0.MainWindow"
+﻿<Window x:Class="ImageSorter2._0.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageSorter2._0.View"
         mc:Ignorable="d"
+        MouseDown="WindowMouseDown"
         Title="ImageSorter" MinWidth="920" MinHeight="500" Height="500" Width="920" Icon="Images/icon.png"
+        WindowState="Maximized"
         Background="{DynamicResource AppBackgroundBrush}">
     <Window.InputBindings>
-        <KeyBinding Command="{Binding NextCommand}" Key="Right"/>
-        <KeyBinding Command="{Binding PrevCommand}" Key="Left"/>
+        <KeyBinding Command="{Binding NextCommand}" Key="Right" />
+        <KeyBinding Command="{Binding PrevCommand}" Key="Left" />
+        <KeyBinding Command="{Binding DeleteFileCommand}" Key="Delete" />
     </Window.InputBindings>
-    <Grid>
+    <Grid Focusable="True" Name="Grid">
         <!-- Main Window -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="550" />
@@ -24,23 +27,26 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <!-- Path and Undo-->
+            <!-- Path and Undo/Settings -->
             <Grid Grid.Row="0" Margin="0 5 0 5" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10 0 0 0">⮌</Button>
+                <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10 0 0 0" Command="{Binding UndoCommand}">⮌</Button>
                 <Grid Grid.Column="1" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" />
-                    <Button Grid.Column="1" HorizontalAlignment="Left" Margin="5 0 0 0">📂</Button>
+                    <TextBox Grid.Column="0" Focusable="False" Text="{Binding DirPath}" />
+                    <Button Grid.Column="1" HorizontalAlignment="Left" Margin="5 0 0 0"
+                            Command="{Binding ChooseDirCommand}">
+                        📂
+                    </Button>
                 </Grid>
-                <Button Grid.Column="2" HorizontalAlignment="Right" Margin="0 0 10 0">⚙</Button>
+                <Button Grid.Column="2" HorizontalAlignment="Right" Margin="0 0 10 0" Click="OpenSettings">⚙</Button>
             </Grid>
             <!-- Image -->
             <Image Grid.Row="1" Source="{Binding ImageSource}" Margin="10 10 10 10" />
@@ -52,7 +58,10 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <!-- Delete-->
-                <Button Grid.Column="0" Margin="10 0 0 0" HorizontalAlignment="Left">🗑</Button>
+                <Button Grid.Column="0" Margin="10 0 0 0" HorizontalAlignment="Left"
+                        Command="{Binding DeleteFileCommand}">
+                    🗑
+                </Button>
                 <!-- Pagination -->
                 <Grid Grid.Column="1" HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
@@ -60,16 +69,22 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" FontSize="60" Margin="0 0 10 0" Padding="0 -24 0 0" Command="{Binding PrevCommand}">‹</Button>
-                    <Label Grid.Column="1" VerticalContentAlignment="Center" Content="{Binding Page}"/>
-                    <Button Grid.Column="2" FontSize="60" Margin="10 0 0 0" Padding="0 -24 0 0" Command="{Binding NextCommand}">›</Button>
+                    <Button Grid.Column="0" FontSize="60" Margin="0 0 10 0" Padding="0 -24 0 0"
+                            Command="{Binding PrevCommand}">
+                        ‹
+                    </Button>
+                    <Label Grid.Column="1" VerticalContentAlignment="Center" Content="{Binding Page}" />
+                    <Button Grid.Column="2" FontSize="60" Margin="10 0 0 0" Padding="0 -24 0 0"
+                            Command="{Binding NextCommand}">
+                        ›
+                    </Button>
                 </Grid>
                 <!-- Name -->
-                <TextBox Grid.Column="2" Margin="0 0 10 0" HorizontalAlignment="Right" />
+                <TextBox Grid.Column="2" Margin="0 0 10 0" HorizontalAlignment="Right" Text="{Binding ImageName}" />
             </Grid>
         </Grid>
         <GridSplitter Grid.Column="0" BorderThickness="2" BorderBrush="#158BBE" Width="4"
-                      HorizontalAlignment="Right" VerticalAlignment="Stretch" />
+                      HorizontalAlignment="Right" VerticalAlignment="Stretch" Focusable="False" />
         <!-- Directories -->
         <local:DirectoriesPanel Grid.Column="1" />
     </Grid>

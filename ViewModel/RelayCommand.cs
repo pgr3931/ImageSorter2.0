@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace ImageSorter2._0.ViewModel
 {
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
         private readonly Action<object> _undo;
@@ -35,6 +35,10 @@ namespace ImageSorter2._0.ViewModel
             _undo(parameter);
         }
 
-        public event EventHandler CanExecuteChanged = delegate { };
+        public event EventHandler CanExecuteChanged    
+        {    
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
+        }   
     }
 }

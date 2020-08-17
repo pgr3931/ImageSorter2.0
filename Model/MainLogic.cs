@@ -30,30 +30,5 @@ namespace ImageSorter2._0.Model
                 }
             }
         }
-
-        public void OpenDir()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Next()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Prev()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Delete()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Undo()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

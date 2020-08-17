@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
+﻿﻿using System.Collections.Generic;
 
-namespace ImageSorter2._0.Model
+ namespace ImageSorter2._0.Model
 {
     public interface ILogic
     {
@@ -10,10 +8,5 @@ namespace ImageSorter2._0.Model
         List<string> Images { get; set; }
         int CurrentImage { get; set; }
         void LoadImages();
-        void OpenDir();
-        void Next();
-        void Prev();
-        void Delete();
-        void Undo();
     }
 }

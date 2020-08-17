@@ -11,30 +11,30 @@
         <Style TargetType="Label">
             <Setter Property="FontSize" Value="24" />
             <Setter Property="Foreground" Value="AliceBlue" />
-            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center" />
         </Style>
         <Style TargetType="Button">
-            <Setter Property="Width" Value="50"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="Foreground" Value="AliceBlue"></Setter>
-            <Setter Property="FontSize" Value="24"></Setter>
-            <Setter Property="Cursor" Value="Hand"></Setter>
-            <Setter Property="BorderBrush" Value="#158BBE"></Setter>
-            <Setter Property="Background" Value="#158BBE"></Setter>
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Foreground" Value="AliceBlue" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderBrush" Value="#158BBE" />
+            <Setter Property="Background" Value="#158BBE" />
         </Style>
         <Style TargetType="Border">
-            <Setter Property="BorderBrush" Value="#158BBE"></Setter>
-            <Setter Property="BorderThickness" Value="2"></Setter>
-            <Setter Property="CornerRadius" Value="5"></Setter>
-        </Style> 
+            <Setter Property="BorderBrush" Value="#158BBE" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="CornerRadius" Value="5" />
+        </Style>
         <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#181A1D"></Setter>
-            <Setter Property="BorderBrush" Value="#158BBE"></Setter>
-            <Setter Property="BorderThickness" Value="2"></Setter>
-            <Setter Property="Foreground" Value="AliceBlue"></Setter>
-            <Setter Property="FontSize" Value="24"></Setter>
-            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-            <Setter Property="MinWidth" Value="100"></Setter>
+            <Setter Property="Background" Value="#181A1D" />
+            <Setter Property="BorderBrush" Value="#158BBE" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Foreground" Value="AliceBlue" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="MinWidth" Value="100" />
         </Style>
     </Application.Resources>
 </Application>
