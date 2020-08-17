@@ -8,14 +8,24 @@
       <e p="bin" t="ExcludeRecursive" />
       <e p="ImageSorter2.0.csproj" t="IncludeRecursive" />
       <e p="ImageSorter2.0.sln" t="IncludeFlat" />
+      <e p="Model" t="Include">
+        <e p="ILogic.cs" t="Include" />
+        <e p="MainLogic.cs" t="Include" />
+      </e>
       <e p="obj" t="ExcludeRecursive">
         <e p="Debug" t="Include">
-          <e p="App.g.cs" t="Include" />
-          <e p="MainWindow.g.cs" t="Include" />
+          <e p="GeneratedInternalTypeHelper.g.cs" t="Include" />
+          <e p="View" t="Include">
+            <e p="App.g.cs" t="Include" />
+            <e p="DirectoriesPanel.g.cs" t="Include" />
+            <e p="Directory.g.cs" t="Include" />
+            <e p="MainWindow.g.cs" t="Include" />
+          </e>
         </e>
       </e>
       <e p="packages" t="ExcludeRecursive" />
       <e p="Properties" t="Include">
+        <e p="Annotations.cs" t="Include" />
         <e p="AssemblyInfo.cs" t="Include" />
         <e p="Resources.Designer.cs" t="Include" />
         <e p="Resources.resx" t="Include" />
@@ -23,13 +33,21 @@
       <e p="View" t="Include">
         <e p="App.xaml" t="Include" />
         <e p="App.xaml.cs" t="Include" />
+        <e p="DirectoriesPanel.xaml" t="Include" />
+        <e p="DirectoriesPanel.xaml.cs" t="Include" />
+        <e p="Directory.xaml" t="Include" />
+        <e p="Directory.xaml.cs" t="Include" />
         <e p="Images" t="Include">
           <e p="EdSRLrSUwAI1sZZ.png" t="Include" />
+          <e p="icon.png" t="Include" />
         </e>
         <e p="MainWindow.xaml" t="Include" />
         <e p="MainWindow.xaml.cs" t="Include" />
       </e>
-      <e p="ViewModel" t="Include" />
+      <e p="ViewModel" t="Include">
+        <e p="MainViewModel.cs" t="Include" />
+        <e p="RelayCommand.cs" t="Include" />
+      </e>
     </e>
   </component>
 </project>

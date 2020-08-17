@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="ImageSorter" MinWidth="920" MinHeight="500" Height="500" Width="920" Icon="Images/icon.png"
         Background="{DynamicResource AppBackgroundBrush}">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding NextCommand}" Key="Right"/>
+        <KeyBinding Command="{Binding PrevCommand}" Key="Left"/>
+    </Window.InputBindings>
     <Grid>
         <!-- Main Window -->
         <Grid.ColumnDefinitions>
@@ -39,7 +43,7 @@
                 <Button Grid.Column="2" HorizontalAlignment="Right" Margin="0 0 10 0">⚙</Button>
             </Grid>
             <!-- Image -->
-            <Image Grid.Row="1" Source="Images/EdSRLrSUwAI1sZZ.png" Margin="10 10 10 10" />
+            <Image Grid.Row="1" Source="{Binding ImageSource}" Margin="10 10 10 10" />
             <!-- Controls -->
             <Grid Grid.Row="2" Margin="0 5 0 5" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
@@ -56,9 +60,9 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" FontSize="60" Margin="0 0 10 0" Padding="0 -24 0 0">‹</Button>
-                    <Label Grid.Column="1" VerticalContentAlignment="Center">0/0</Label>
-                    <Button Grid.Column="2" FontSize="60" Margin="10 0 0 0" Padding="0 -24 0 0">›</Button>
+                    <Button Grid.Column="0" FontSize="60" Margin="0 0 10 0" Padding="0 -24 0 0" Command="{Binding PrevCommand}">‹</Button>
+                    <Label Grid.Column="1" VerticalContentAlignment="Center" Content="{Binding Page}"/>
+                    <Button Grid.Column="2" FontSize="60" Margin="10 0 0 0" Padding="0 -24 0 0" Command="{Binding NextCommand}">›</Button>
                 </Grid>
                 <!-- Name -->
                 <TextBox Grid.Column="2" Margin="0 0 10 0" HorizontalAlignment="Right" />

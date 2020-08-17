@@ -13,7 +13,7 @@ namespace ImageSorter2._0.ViewModel
         private readonly Action<object> _undo;
         private readonly Predicate<object> _canExecute;
 
-        public RelayCommand(Action<object> execute, Action<object> undo, Predicate<object> canExecute)
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute, Action<object> undo = null)
         {
             _execute = execute;
             _undo = undo;
