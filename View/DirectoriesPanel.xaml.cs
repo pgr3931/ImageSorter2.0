@@ -23,20 +23,13 @@ namespace ImageSorter2._0.View
         public DirectoriesPanel()
         {
             InitializeComponent();
-
-            List<TodoItem> items = new List<TodoItem>();
-            for (var i = 0; i < 20; i++)
-            {
-                items.Add(new TodoItem()
-                    {Title = "Anime", Completion = 45});
-            }
-
-            Directories.ItemsSource = items;
         }
-        public class TodoItem
+       
+        private void OpenAddDir(object sender, RoutedEventArgs e)
         {
-            public string Title { get; set; }
-            public int Completion { get; set; }
+            var modalWindow = new AddDirectory() {Owner = Window.GetWindow(Parent)};
+            modalWindow.ShowDialog();
         }
+        
     }
 }

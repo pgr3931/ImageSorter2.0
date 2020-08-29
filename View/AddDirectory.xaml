@@ -1,0 +1,63 @@
+﻿<Window x:Class="ImageSorter2._0.View.AddDirectory"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ImageSorter2._0.View"
+        xmlns:visualBasic="clr-namespace:Microsoft.VisualBasic;assembly=Microsoft.VisualBasic"
+        mc:Ignorable="d"
+        Title="Add Directory" Height="450" Width="800" MinHeight="450" MinWidth="800"
+        Background="{DynamicResource AppBackgroundBrush}">
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <!-- Name -->
+        <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0" Content="Name" />
+        <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" MinHeight="50"
+                 Text="{Binding Path=Name}" />
+
+        <!-- Path -->
+        <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0"
+               Content="Path" />
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" MinHeight="50" VerticalAlignment="Center"
+                     Text="{Binding Path=DirPath}" Focusable="False" />
+            <Button Margin="5 0 0 0" Grid.Column="1" Command="{Binding ChooseDirCommand}">📂</Button>
+        </Grid>
+
+        <!-- Shortcut -->
+        <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0"
+               Content="Shortcut" />
+        <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" MinHeight="50"
+                 Text="{Binding Path=Shortcut, Mode=TwoWay}" PreviewKeyDown="Shortcut" x:Name="ShortcutBox">
+
+        </TextBox>
+
+        <!-- Buttons -->
+        <Grid Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Margin="0 0 10 0" HorizontalAlignment="Center" MinWidth="100" Command="{Binding AddDirCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                           AncestorType={x:Type Window}}}">
+                Add
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

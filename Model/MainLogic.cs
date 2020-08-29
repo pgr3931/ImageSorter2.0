@@ -17,18 +17,40 @@ namespace ImageSorter2._0.Model
 
         public void LoadImages()
         {
-            if (Directory.Exists(Path))
+            if (!Directory.Exists(Path)) return;
+            
+            Images.Clear();
+            var files = Directory.GetFiles(Path);
+            foreach (var f in files)
             {
-                Images.Clear();
-                var files = Directory.GetFiles(Path);
-                foreach (var f in files)
+                if (System.Web.MimeMapping.GetMimeMapping(f).StartsWith("image/"))
                 {
-                    if (System.Web.MimeMapping.GetMimeMapping(f).StartsWith("image/"))
-                    {
-                        Images.Add(f);
-                    }
+                    Images.Add(f);
                 }
             }
+        }
+
+        public void RemoveCurrentImage()
+        {
+            Images.RemoveAt(CurrentImage);
+            if (CurrentImage == Images.Count || Images.Count == 1)
+            {
+                CurrentImage = 0;
+            }
+            else
+            {
+                CurrentImage++;
+            }
+        }
+
+        public string GetCurrentImage()
+        {
+            return Images[CurrentImage];
+        }
+
+        public bool HasImages()
+        {
+            return Images.Count > 0;
         }
     }
 }

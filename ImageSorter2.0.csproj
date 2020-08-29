@@ -59,13 +59,20 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\DirectoryModel.cs" />
+    <Compile Include="Model\HistoryObject.cs" />
     <Compile Include="Model\ILogic.cs" />
     <Compile Include="Model\MainLogic.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModel\AddDirViewModel.cs" />
     <Compile Include="ViewModel\IOManager.cs" />
+    <Compile Include="ViewModel\IOUtils.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
+    <Compile Include="View\AddDirectory.xaml.cs">
+      <DependentUpon>AddDirectory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -109,6 +116,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\AddDirectory.xaml" />
     <Page Include="View\DirectoriesPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

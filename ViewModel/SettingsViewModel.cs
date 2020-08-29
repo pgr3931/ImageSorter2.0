@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ImageSorter2._0.Annotations;
-using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace ImageSorter2._0.ViewModel
 {
@@ -54,7 +53,7 @@ namespace ImageSorter2._0.ViewModel
             {
                 return _chooseDefaultDirCommand ?? (
                     _chooseDefaultDirCommand = new RelayCommand(
-                        (x) => { DefaultPath = ChooseDir(DefaultPath); },
+                        (x) => { DefaultPath = IOUtils.ChooseDir(DefaultPath); },
                         (x) => true));
             }
         }
@@ -67,7 +66,7 @@ namespace ImageSorter2._0.ViewModel
             {
                 return _chooseSaveDirCommand ?? (
                     _chooseSaveDirCommand = new RelayCommand(
-                        (x) => { SaveFilePath = ChooseDir(SaveFilePath); },
+                        (x) => { SaveFilePath = IOUtils.ChooseDir(SaveFilePath); },
                         (x) => true));
             }
         }
@@ -85,14 +84,7 @@ namespace ImageSorter2._0.ViewModel
             }
         }
 
-        private static string ChooseDir(string root)
-        {
-            var dialog = new CommonOpenFileDialog
-            {
-                InitialDirectory = root, IsFolderPicker = true
-            };
-            return dialog.ShowDialog() == CommonFileDialogResult.Ok ? dialog.FileName : root;
-        }
+     
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ImageSorter2._0.Annotations;
 using ImageSorter2._0.Model;
@@ -15,8 +15,8 @@ namespace ImageSorter2._0.ViewModel
 {
     class MainViewModel : INotifyPropertyChanged
     {
-        private List<RelayCommand> _history;
-        private readonly ILogic _logic;
+        private readonly List<HistoryObject> _history;
+        private readonly MainLogic _logic;
 
         private string _dirPath;
 
@@ -66,6 +66,8 @@ namespace ImageSorter2._0.ViewModel
             }
         }
 
+        public ObservableCollection<DirectoryModel> Directories { get; }
+
         private RelayCommand _nextCommand;
 
         public RelayCommand NextCommand
@@ -83,12 +85,7 @@ namespace ImageSorter2._0.ViewModel
                             }
 
                             SetMetaInfos();
-                            var image = new BitmapImage();
-                            image.BeginInit();
-                            image.CacheOption = BitmapCacheOption.OnLoad;
-                            image.UriSource = new Uri(_logic.Images[_logic.CurrentImage]);
-                            image.EndInit();
-                            ImageSource = image;
+                            SetImage();
                         },
                         (x) => _logic.Images.Count > 1));
             }
@@ -111,12 +108,7 @@ namespace ImageSorter2._0.ViewModel
                             }
 
                             SetMetaInfos();
-                            var image = new BitmapImage();
-                            image.BeginInit();
-                            image.CacheOption = BitmapCacheOption.OnLoad;
-                            image.UriSource = new Uri(_logic.Images[_logic.CurrentImage]);
-                            image.EndInit();
-                            ImageSource = image;
+                            SetImage();
                         },
                         (x) => _logic.Images.Count > 1));
             }
@@ -143,14 +135,9 @@ namespace ImageSorter2._0.ViewModel
                                 _logic.CurrentImage = 0;
                                 DirPath = _logic.Path;
                                 SetMetaInfos();
-                                if (_logic.Images.Count > 0)
+                                if (_logic.HasImages())
                                 {
-                                    var image = new BitmapImage();
-                                    image.BeginInit();
-                                    image.CacheOption = BitmapCacheOption.OnLoad;
-                                    image.UriSource = new Uri(_logic.Images[_logic.CurrentImage]);
-                                    image.EndInit();
-                                    ImageSource = image;
+                                    SetImage();
                                 }
                                 else
                                 {
@@ -174,43 +161,30 @@ namespace ImageSorter2._0.ViewModel
                         {
                             try
                             {
-                                FileSystem.DeleteFile(_logic.Images[_logic.CurrentImage], UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                                FileSystem.DeleteFile(_logic.GetCurrentImage(),
+                                    UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                                 _logic.Images.RemoveAt(_logic.CurrentImage);
                                 if (_logic.CurrentImage == _logic.Images.Count)
                                 {
                                     _logic.CurrentImage--;
                                 }
 
-                                if (_logic.Images.Count > 0)
-                                {
-                                     var image = new BitmapImage();
-                                    image.BeginInit();
-                                    image.CacheOption = BitmapCacheOption.OnLoad;
-                                    image.UriSource = new Uri(_logic.Images[_logic.CurrentImage]);
-                                    image.EndInit();
-                                    ImageSource = image;
-                                }
-                                else
-                                {
-                                    ImageSource = null;
-                                }
-
+                                SetImage();
                                 SetMetaInfos();
                             }
                             catch (IOException)
                             {
                                 //TODO add dialog maybe
-                                Console.WriteLine("IO Exception");
                             }
                             catch (OperationCanceledException)
                             {
                                 //TODO add dialog maybe
                             }
                         },
-                        (x) => _logic.Images.Count > 0));
+                        (x) => _logic.HasImages()));
             }
         }
-        
+
         private RelayCommand _undoCommand;
 
         public RelayCommand UndoCommand
@@ -221,10 +195,77 @@ namespace ImageSorter2._0.ViewModel
                     _undoCommand = new RelayCommand(
                         (x) =>
                         {
-                            _history.Last().Undo(null);
+                            var info = _history.Last();
+                            try
+                            {
+                                File.Move(info.NewPath, info.OldPath);
+                            }
+                            catch (Exception)
+                            {
+                                //TODO display exception
+                            }
+
+                            _logic.Images.Insert(info.Index, info.OldPath);
+                            _logic.CurrentImage = info.Index;
+                            SetImage();
+                            SetMetaInfos();
+
+                            if (string.IsNullOrEmpty(DirPath))
+                            {
+                                DirPath = info.DirPath;
+                            }
+
                             _history.RemoveAt(_history.Count - 1);
                         },
                         (x) => _history.Count > 0));
+            }
+        }
+
+        private RelayCommand _moveCommand;
+
+        public RelayCommand MoveCommand
+        {
+            get
+            {
+                return _moveCommand ?? (
+                    _moveCommand = new RelayCommand(
+                        (x) =>
+                        {
+                            var dir = Directories[(int) x];
+                            var source = _logic.GetCurrentImage();
+                            var oldName = source.Split('\\').Last();
+                            var dest = dir.Path;
+                            if (string.IsNullOrWhiteSpace(ImageName))
+                            {
+                                dest += $"\\{oldName}";
+                            }
+                            else
+                            {
+                                dest += $"\\{ImageName}.{oldName.Split('.').Last()}";
+                            }
+
+                            try
+                            {
+                                File.Move(source, dest);
+                            }
+                            catch (Exception)
+                            {
+                                //TODO display exception
+                            }
+
+                            _history.Add(new HistoryObject
+                            {
+                                OldPath = source,
+                                NewPath = dest,
+                                Index = _logic.CurrentImage,
+                                DirPath = DirPath
+                            });
+
+                            _logic.RemoveCurrentImage();
+                            SetImage();
+                            SetMetaInfos();
+                        },
+                        (x) => _logic.HasImages()));
             }
         }
 
@@ -236,50 +277,56 @@ namespace ImageSorter2._0.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public MainViewModel(ILogic logic)
+        public MainViewModel(MainLogic logic)
         {
-            _history = new List<RelayCommand>();
+            _history = new List<HistoryObject>();
             _logic = logic;
+            Directories = new ObservableCollection<DirectoryModel>();
             _logic.Path = IOManager.ReadSetting("DefaultPath");
             DirPath = _logic.Path;
             logic.LoadImages();
             SetMetaInfos();
-            if (_logic.Images.Count > 0)
+            SetImage();
+        }
+
+        private void SetImage()
+        {
+            if (_logic.HasImages())
             {
                 var image = new BitmapImage();
                 image.BeginInit();
                 image.CacheOption = BitmapCacheOption.OnLoad;
-                image.UriSource = new Uri(_logic.Images[_logic.CurrentImage]);
+                image.UriSource = new Uri(_logic.GetCurrentImage());
                 image.EndInit();
                 ImageSource = image;
+            }
+            else
+            {
+                ImageSource = null;
             }
         }
 
         private void SetPage()
         {
-            if (_logic.Images.Count > 0)
-            {
-                Page = $"{(_logic.CurrentImage + 1)}/{_logic.Images.Count}";
-            }
-            else
-            {
-                Page = "0/0";
-            }
+            Page = _logic.HasImages() ? $"{(_logic.CurrentImage + 1)}/{_logic.Images.Count}" : "0/0";
         }
 
         private void SetImageName()
         {
-            if (_logic.Images.Count > 0)
-            {
-                ImageName = _logic.Images[_logic.CurrentImage].Split('\\').Last().Split('.')
-                    .First();
-            }
+            ImageName = _logic.HasImages()
+                ? _logic.GetCurrentImage().Split('\\').Last().Split('.')
+                    .First()
+                : "";
         }
 
         private void SetMetaInfos()
         {
             SetPage();
             SetImageName();
+            if (_logic.Images.Count == 0)
+            {
+                DirPath = "";
+            }
         }
     }
 }

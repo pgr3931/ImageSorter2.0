@@ -1,5 +1,4 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 
 namespace ImageSorter2._0.ViewModel
 {
@@ -25,7 +24,6 @@ namespace ImageSorter2._0.ViewModel
             }
             catch (ConfigurationErrorsException)
             {
-                Console.WriteLine("Error writing app settings");
                 //TODO error message
             }
         }
@@ -40,7 +38,6 @@ namespace ImageSorter2._0.ViewModel
             }
             catch (ConfigurationErrorsException)
             {
-                Console.WriteLine("Error reading app settings");
                 //TODO error message
             }
 
