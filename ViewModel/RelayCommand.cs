@@ -6,13 +6,11 @@ namespace ImageSorter2._0.ViewModel
     public class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
-        private readonly Action<object> _undo;
         private readonly Predicate<object> _canExecute;
 
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute, Action<object> undo = null)
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
             _execute = execute;
-            _undo = undo;
             _canExecute = canExecute;
         }
 
@@ -24,11 +22,6 @@ namespace ImageSorter2._0.ViewModel
         public void Execute(object parameter)
         {
             _execute(parameter);
-        }
-
-        public void Undo(object parameter)
-        {
-            _undo(parameter);
         }
 
         public event EventHandler CanExecuteChanged    

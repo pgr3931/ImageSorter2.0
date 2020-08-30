@@ -76,13 +76,21 @@ namespace ImageSorter2._0.ViewModel
                         (x) =>
                         {
                             var mainViewModel = (MainViewModel) ((Window) x).Owner.DataContext;
+                            if (mainViewModel.Directories.Any(dir => dir.Path == DirPath))
+                            {
+                                MessageBox.Show("The directory you're trying to add already exists",
+                                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                return;
+                            }
+
                             mainViewModel.Directories.Add(new DirectoryModel
                             {
-                                Name = Name, 
+                                Name = Name,
                                 Path = DirPath,
                                 Shortcut = "📂" + (string.IsNullOrEmpty(Shortcut) ? "" : " " + Shortcut),
                                 Index = mainViewModel.Directories.Count
                             });
+                            IOUtils.Save(mainViewModel.Directories.ToList());
                             ((Window) x).Close();
                         },
                         (x) => !string.IsNullOrEmpty(_name) && !string.IsNullOrEmpty(_dirPath)));

@@ -13,6 +13,7 @@
         <KeyBinding Command="{Binding NextCommand}" Key="Right" />
         <KeyBinding Command="{Binding PrevCommand}" Key="Left" />
         <KeyBinding Command="{Binding DeleteFileCommand}" Key="Delete" />
+        <KeyBinding Command="{Binding UndoCommand}" Key="Z" Modifiers="Control" />
     </Window.InputBindings>
     <Grid Focusable="True" Name="Grid">
         <!-- Main Window -->
@@ -80,7 +81,8 @@
                     </Button>
                 </Grid>
                 <!-- Name -->
-                <TextBox Grid.Column="2" Margin="0 0 10 0" HorizontalAlignment="Right" Text="{Binding ImageName}" />
+                <TextBox Grid.Column="2" Margin="0 0 10 0" HorizontalAlignment="Right" Text="{Binding ImageName}"
+                         GotFocus="NameBox_OnGotFocus" LostFocus="NameBox_OnLostFocus" />
             </Grid>
         </Grid>
         <GridSplitter Grid.Column="0" BorderThickness="2" BorderBrush="#158BBE" Width="4"

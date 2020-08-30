@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ImageSorter2._0.Annotations;
 using ImageSorter2._0.Model;
@@ -281,7 +282,7 @@ namespace ImageSorter2._0.ViewModel
         {
             _history = new List<HistoryObject>();
             _logic = logic;
-            Directories = new ObservableCollection<DirectoryModel>();
+            Directories = new ObservableCollection<DirectoryModel>(IOUtils.Load());
             _logic.Path = IOManager.ReadSetting("DefaultPath");
             DirPath = _logic.Path;
             logic.LoadImages();

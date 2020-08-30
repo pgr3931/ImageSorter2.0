@@ -26,6 +26,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <Button Grid.Row="1" FontSize="50" Padding="0 -14 0 0" HorizontalAlignment="Right" Margin="0 10 23 5" Click="OpenAddDir">+</Button>
+        <Button Grid.Row="1" FontSize="50" Padding="0 -14 0 0" HorizontalAlignment="Right" Margin="0 10 23 5" Click="OpenAddDir" >+</Button>
     </Grid>
 </UserControl>
