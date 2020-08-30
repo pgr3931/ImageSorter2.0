@@ -9,16 +9,31 @@
     <Button Width="130" Height="130" Margin="5"
             Command="{Binding Path=DataContext.MoveCommand, 
           RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-            CommandParameter="{Binding Index}">
+            CommandParameter="{Binding Index}"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalContentAlignment="Center"
+                   FontSize="20"
                    Content="{Binding Shortcut}" />
-            <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="18" VerticalAlignment="Center"
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Name}" FontSize="18" VerticalAlignment="Center"
                        TextWrapping="WrapWithOverflow" TextAlignment="Center" />
+            <Menu Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <MenuItem Header="•••" Background="#158BBE" Foreground="AliceBlue">
+                    <MenuItem Header="Edit Directory" />
+                    <MenuItem Header="Create Sub-Folder" />
+                    <MenuItem Header="Delete Directory" />
+                </MenuItem>
+            </Menu>
         </Grid>
     </Button>
 </UserControl>

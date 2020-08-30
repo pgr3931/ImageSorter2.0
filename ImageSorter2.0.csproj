@@ -132,11 +132,6 @@
     <Page Include="View\Settings.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Images\EdSRLrSUwAI1sZZ.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="View\Images\icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

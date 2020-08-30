@@ -45,7 +45,6 @@
         <e p="Directory.xaml" t="Include" />
         <e p="Directory.xaml.cs" t="Include" />
         <e p="Images" t="Include">
-          <e p="EdSRLrSUwAI1sZZ.png" t="Include" />
           <e p="icon.png" t="Include" />
         </e>
         <e p="MainWindow.xaml" t="Include" />
