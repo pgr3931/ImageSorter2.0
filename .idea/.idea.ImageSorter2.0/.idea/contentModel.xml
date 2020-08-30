@@ -18,6 +18,7 @@
         <e p="Debug" t="Include">
           <e p="GeneratedInternalTypeHelper.g.cs" t="Include" />
           <e p="View" t="Include">
+            <e p="AddDirectory.g.cs" t="Include" />
             <e p="App.g.cs" t="Include" />
             <e p="DirectoriesPanel.g.cs" t="Include" />
             <e p="Directory.g.cs" t="Include" />
