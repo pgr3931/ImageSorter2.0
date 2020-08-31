@@ -16,22 +16,25 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalContentAlignment="Center"
-                   FontSize="20"
+                   FontSize="20" Margin="0 15 0 0"
                    Content="{Binding Shortcut}" />
             <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Name}" FontSize="18" VerticalAlignment="Center"
                        TextWrapping="WrapWithOverflow" TextAlignment="Center" />
-            <Menu Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Menu Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#158BBE">
                 <MenuItem Header="•••" Background="#158BBE" Foreground="AliceBlue">
-                    <MenuItem Header="Edit Directory" />
-                    <MenuItem Header="Create Sub-Folder" />
-                    <MenuItem Header="Delete Directory" />
+                    <MenuItem Header="Edit Directory" Click="OpenEditDir" />
+                    <MenuItem Header="Create Sub-Folder" Click="OpenCreateSub"/>
+                    <MenuItem Header="Delete Directory"
+                              Command="{Binding Path=DataContext.DeleteDirCommand, 
+                              RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                              CommandParameter="{Binding Index}" />
                 </MenuItem>
             </Menu>
         </Grid>

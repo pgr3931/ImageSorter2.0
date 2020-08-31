@@ -65,6 +65,8 @@
     <Compile Include="Model\MainLogic.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\AddDirViewModel.cs" />
+    <Compile Include="ViewModel\CreateSubViewModel.cs" />
+    <Compile Include="ViewModel\EditDirViewModel.cs" />
     <Compile Include="ViewModel\IOManager.cs" />
     <Compile Include="ViewModel\IOUtils.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -77,11 +79,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="View\CreateSubFolder.xaml.cs">
+      <DependentUpon>CreateSubFolder.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DirectoriesPanel.xaml.cs">
       <DependentUpon>DirectoriesPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Directory.xaml.cs">
       <DependentUpon>Directory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditDIrectory.xaml.cs">
+      <DependentUpon>EditDirectory.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -117,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\AddDirectory.xaml" />
+    <Page Include="View\CreateSubFolder.xaml" />
     <Page Include="View\DirectoriesPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -125,6 +134,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\EditDirectory.xaml" />
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

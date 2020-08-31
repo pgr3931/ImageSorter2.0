@@ -269,6 +269,23 @@ namespace ImageSorter2._0.ViewModel
                         (x) => _logic.HasImages()));
             }
         }
+        
+        private RelayCommand _deleteDirCommand;
+
+        public RelayCommand DeleteDirCommand
+        {
+            get
+            {
+                return _deleteDirCommand ?? (
+                    _deleteDirCommand = new RelayCommand(
+                        (x) =>
+                        {
+                            Directories.RemoveAt((int) x);
+                            IOUtils.Save(Directories.ToList());
+                        },
+                        (x) => true));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

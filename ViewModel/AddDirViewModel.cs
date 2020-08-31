@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
 using ImageSorter2._0.Annotations;
 using ImageSorter2._0.Model;
 
@@ -83,13 +85,49 @@ namespace ImageSorter2._0.ViewModel
                                 return;
                             }
 
+                            var index = mainViewModel.Directories.Count;
                             mainViewModel.Directories.Add(new DirectoryModel
                             {
                                 Name = Name,
                                 Path = DirPath,
                                 Shortcut = "📂" + (string.IsNullOrEmpty(Shortcut) ? "" : " " + Shortcut),
-                                Index = mainViewModel.Directories.Count
+                                Index = index
                             });
+
+
+                            if (!string.IsNullOrEmpty(Shortcut))
+                            {
+                                var shortcutArray = Shortcut.Split('+');
+
+                                Enum.TryParse(shortcutArray.Last(), true, out Key key);
+                                var modifier = ModifierKeys.None;
+                                if (shortcutArray.Length == 2)
+                                {
+                                    Enum.TryParse(shortcutArray.First().Replace("Ctrl", "Control"), true,
+                                        out modifier);
+                                }
+
+                                if (modifier != ModifierKeys.None)
+                                {
+                                    ((Window) x).Owner.InputBindings.Add(new KeyBinding
+                                    {
+                                        Command = mainViewModel.MoveCommand,
+                                        CommandParameter = index,
+                                        Key = key,
+                                        Modifiers = modifier
+                                    });
+                                }
+                                else
+                                {
+                                    ((Window) x).Owner.InputBindings.Add(new KeyBinding
+                                    {
+                                        Command = mainViewModel.MoveCommand,
+                                        CommandParameter = index,
+                                        Key = key
+                                    });
+                                }
+                            }
+
                             IOUtils.Save(mainViewModel.Directories.ToList());
                             ((Window) x).Close();
                         },

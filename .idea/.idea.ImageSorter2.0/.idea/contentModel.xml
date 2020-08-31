@@ -40,10 +40,14 @@
         <e p="AddDirectory.xaml.cs" t="Include" />
         <e p="App.xaml" t="Include" />
         <e p="App.xaml.cs" t="Include" />
+        <e p="CreateSubFolder.xaml" t="Include" />
+        <e p="CreateSubFolder.xaml.cs" t="Include" />
         <e p="DirectoriesPanel.xaml" t="Include" />
         <e p="DirectoriesPanel.xaml.cs" t="Include" />
         <e p="Directory.xaml" t="Include" />
         <e p="Directory.xaml.cs" t="Include" />
+        <e p="EditDIrectory.xaml" t="Include" />
+        <e p="EditDIrectory.xaml.cs" t="Include" />
         <e p="Images" t="Include">
           <e p="icon.png" t="Include" />
         </e>
@@ -54,6 +58,8 @@
       </e>
       <e p="ViewModel" t="Include">
         <e p="AddDirViewModel.cs" t="Include" />
+        <e p="CreateSubViewModel.cs" t="Include" />
+        <e p="EditDirViewModel.cs" t="Include" />
         <e p="IOManager.cs" t="Include" />
         <e p="IOUtils.cs" t="Include" />
         <e p="MainViewModel.cs" t="Include" />
