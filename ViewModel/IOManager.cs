@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.Windows;
 
 namespace ImageSorter2._0.ViewModel
 {
@@ -22,9 +24,10 @@ namespace ImageSorter2._0.ViewModel
                 configFile.Save(ConfigurationSaveMode.Modified);
                 ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
             }
-            catch (ConfigurationErrorsException)
+            catch (Exception e)
             {
-                //TODO error message
+                MessageBox.Show("Something went wrong while saving the settings.\n" + e.Message,
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -33,15 +36,16 @@ namespace ImageSorter2._0.ViewModel
             try
             {
                 var appSettings = ConfigurationManager.AppSettings;
-                var result = appSettings[key] ?? "False";
+                var result = appSettings[key] ?? "";
                 return result;
             }
-            catch (ConfigurationErrorsException)
+            catch (Exception e)
             {
-                //TODO error message
+                MessageBox.Show("Something went wrong while loading the settings.\n" + e.Message,
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            return "False";
+            return "";
         }
     }
 }

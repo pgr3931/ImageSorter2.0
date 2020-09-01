@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using ImageSorter2._0.Model;
 using ImageSorter2._0.ViewModel;
 
@@ -23,7 +24,7 @@ namespace ImageSorter2._0.View
                     {Owner = Window.GetWindow(this)};
             modalWindow.ShowDialog();
         }
-        
+
         private void OpenCreateSub(object sender, RoutedEventArgs e)
         {
             var path = ((DirectoryModel) DataContext).Path;

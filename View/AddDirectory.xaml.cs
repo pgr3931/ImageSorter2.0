@@ -29,7 +29,8 @@ namespace ImageSorter2._0.View
                                      || key == Key.LeftAlt || key == Key.RightAlt
                                      || key == Key.LWin || key == Key.RWin
                                      || key == Key.Left || key == Key.Right
-                                     || key == Key.Delete || (key == Key.Z && Keyboard.Modifiers == ModifierKeys.Control))
+                                     || key == Key.Delete || 
+                                     (key == Key.Z && Keyboard.Modifiers == ModifierKeys.Control))
             {
                 return;
             }

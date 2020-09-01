@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using ImageSorter2._0.ViewModel;
 
@@ -9,13 +8,17 @@ namespace ImageSorter2._0.View
 {
     public partial class EditDirectory : Window
     {
-        private string originalShortcut;
+        private readonly string _originalShortcut;
+        private string _undo;
+        private string _delete;
+        private string _left;
+        private string _right;
         public EditDirectory(object mainViewModelObject, int i)
         {
             InitializeComponent();
 
             var mainViewModel = (MainViewModel) mainViewModelObject;
-            originalShortcut = mainViewModel.Directories[i].Shortcut;
+            _originalShortcut = mainViewModel.Directories[i].Shortcut;
             DataContext = new EditDirViewModel
             {
                 Name = mainViewModel.Directories[i].Name,
@@ -23,6 +26,7 @@ namespace ImageSorter2._0.View
                 Shortcut = mainViewModel.Directories[i].Shortcut.Split(' ').Last(),
                 Index = i
             };
+            //TODO shotrcuts lesen und speichern -> unten abfragen statt default
         }
 
         private void Shortcut(object sender, KeyEventArgs e)
@@ -32,14 +36,14 @@ namespace ImageSorter2._0.View
 
             // Fetch the actual shortcut key.
             var key = (e.Key == Key.System ? e.SystemKey : e.Key);
-
+            
             // Ignore modifier keys.
             if (key == Key.LeftShift || key == Key.RightShift
                                      || key == Key.LeftCtrl || key == Key.RightCtrl
                                      || key == Key.LeftAlt || key == Key.RightAlt
                                      || key == Key.LWin || key == Key.RWin
                                      || key == Key.Left || key == Key.Right
-                                     || key == Key.Delete ||
+                                     || key == Key.Delete || 
                                      (key == Key.Z && Keyboard.Modifiers == ModifierKeys.Control))
             {
                 return;
@@ -66,29 +70,9 @@ namespace ImageSorter2._0.View
 
             var viewModel = (MainViewModel) Owner.DataContext;
             if (viewModel.Directories.Any(dir =>
-                dir.Shortcut.Split(' ').Last() == shortcutText.ToString() && dir.Shortcut != originalShortcut))
+                dir.Shortcut.Split(' ').Last() == shortcutText.ToString() && dir.Shortcut != _originalShortcut))
             {
                 return;
-            }
-
-            if (Keyboard.Modifiers != 0)
-            {
-                Owner.InputBindings.Add(new KeyBinding()
-                {
-                    Command = viewModel.MoveCommand,
-                    CommandParameter = viewModel.Directories.Count,
-                    Key = key,
-                    Modifiers = Keyboard.Modifiers
-                });
-            }
-            else
-            {
-                Owner.InputBindings.Add(new KeyBinding()
-                {
-                    Command = viewModel.MoveCommand,
-                    CommandParameter = viewModel.Directories.Count,
-                    Key = key
-                });
             }
 
             // Update the text box.

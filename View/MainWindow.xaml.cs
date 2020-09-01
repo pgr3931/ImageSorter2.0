@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -13,6 +14,7 @@ namespace ImageSorter2._0.View
     public partial class MainWindow
     {
         private readonly InputBindingCollection _bindings = new InputBindingCollection();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -22,50 +24,84 @@ namespace ImageSorter2._0.View
             foreach (var dir in viewModel.Directories)
             {
                 var shortcut = dir.Shortcut.Split(' ').Last();
-                if(shortcut == "📂") continue;
-                
+                if (shortcut == "📂") continue;
+
                 var shortcutArray = shortcut.Split('+');
+                GetKeyModifier(shortcutArray, out var key, out var modifier);
 
-                Enum.TryParse(shortcutArray.Last(), true, out Key key);
-                var modifier = ModifierKeys.None;
-                if (shortcutArray.Length == 2)
-                {
-                    Enum.TryParse(shortcutArray.First().Replace("Ctrl", "Control"), true, out modifier);
-                }
+                dir.KeyBinding = AddBinding(viewModel.MoveCommand, key, modifier, dir.Index);
+            }
 
-                if (modifier != ModifierKeys.None)
-                {
-                    InputBindings.Add(new KeyBinding
-                    {
-                        Command = viewModel.MoveCommand,
-                        CommandParameter = dir.Index,
-                        Key = key,
-                        Modifiers = modifier
-                    });
-                }
-                else
-                {
-                    InputBindings.Add(new KeyBinding
-                    {
-                        Command = viewModel.MoveCommand,
-                        CommandParameter = dir.Index,
-                        Key = key
-                    });
-                }
+            var metaShortcut = SetGetMetaShortcut("Undo", "Ctrl+Z");
+            GetKeyModifier(metaShortcut.Split('+'), out var metaKey, out var metaModifier);
+            AddBinding(viewModel.UndoCommand, metaKey, metaModifier);
+
+            metaShortcut = SetGetMetaShortcut("Delete", "Delete");
+            GetKeyModifier(metaShortcut.Split('+'), out metaKey, out metaModifier);
+            AddBinding(viewModel.DeleteFileCommand, metaKey, metaModifier);
+
+            metaShortcut = SetGetMetaShortcut("Left", "Left");
+            GetKeyModifier(metaShortcut.Split('+'), out metaKey, out metaModifier);
+            AddBinding(viewModel.PrevCommand, metaKey, metaModifier);
+
+            metaShortcut = SetGetMetaShortcut("Right", "Right");
+            GetKeyModifier(metaShortcut.Split('+'), out metaKey, out metaModifier);
+            AddBinding(viewModel.NextCommand, metaKey, metaModifier);
+
+            DataContext = viewModel;
+        }
+
+        private KeyBinding AddBinding(ICommand command, Key key, ModifierKeys modifier, object commandParameter = null)
+        {
+            var keyBinding = new KeyBinding
+            {
+                Command = command,
+                CommandParameter = commandParameter,
+                Key = key
+            };
+            if (modifier != ModifierKeys.None)
+            {
+                keyBinding.Modifiers = modifier;
             }
             
-            DataContext = viewModel;
+            InputBindings.Add(keyBinding);
+            return keyBinding;
+        }
+
+        private static string SetGetMetaShortcut(string key, string defaultValue)
+        {
+            var value = IOManager.ReadSetting(key);
+            if (!string.IsNullOrEmpty(value)) return value;
+
+            IOManager.AddUpdateAppSettings(key, defaultValue);
+            return defaultValue;
+        }
+
+        private static void GetKeyModifier(IReadOnlyCollection<string> shortcutArray, out Key key, out ModifierKeys modifier)
+        {
+            Enum.TryParse(shortcutArray.Last(), true, out key);
+            if (shortcutArray.Count == 2)
+            {
+                Enum.TryParse(shortcutArray.First().Replace("Ctrl", "Control"), true, out modifier);
+            }
+            else
+            {
+                modifier = ModifierKeys.None;
+            }
         }
 
         private void WindowMouseDown(object sender, MouseButtonEventArgs e)
         {
             Grid.Focus();
         }
-        
+
         private void OpenSettings(object sender, RoutedEventArgs e)
         {
             var modalWindow = new Settings {Owner = this};
             modalWindow.ShowDialog();
+            var mainViewModel = (MainViewModel) DataContext;
+            mainViewModel.AlwaysOverride = IOManager.ReadSetting("AlwaysOverride") == "True";
+            
         }
 
         private void NameBox_OnGotFocus(object sender, RoutedEventArgs e)
@@ -73,7 +109,7 @@ namespace ImageSorter2._0.View
             _bindings.AddRange(InputBindings);
             InputBindings.Clear();
         }
-        
+
         private void NameBox_OnLostFocus(object sender, RoutedEventArgs e)
         {
             InputBindings.AddRange(_bindings);

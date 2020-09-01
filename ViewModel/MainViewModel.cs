@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using ImageSorter2._0.Annotations;
 using ImageSorter2._0.Model;
@@ -31,6 +31,18 @@ namespace ImageSorter2._0.ViewModel
             }
         }
 
+        private bool _alwaysOverride;
+
+        public bool AlwaysOverride
+        {
+            get => _alwaysOverride;
+            set
+            {
+                _alwaysOverride = value;
+                OnPropertyChanged();
+            }
+        }
+
         private BitmapImage _imageSource;
 
         public BitmapImage ImageSource
@@ -39,6 +51,18 @@ namespace ImageSorter2._0.ViewModel
             set
             {
                 _imageSource = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _gifSource;
+
+        public string GifSource
+        {
+            get => _gifSource;
+            set
+            {
+                _gifSource = value;
                 OnPropertyChanged();
             }
         }
@@ -160,8 +184,11 @@ namespace ImageSorter2._0.ViewModel
                     _deleteFileCommand = new RelayCommand(
                         (x) =>
                         {
+                            var originalGifSource = GifSource;
                             try
                             {
+                                GifSource = null;
+                                
                                 FileSystem.DeleteFile(_logic.GetCurrentImage(),
                                     UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                                 _logic.Images.RemoveAt(_logic.CurrentImage);
@@ -173,13 +200,11 @@ namespace ImageSorter2._0.ViewModel
                                 SetImage();
                                 SetMetaInfos();
                             }
-                            catch (IOException)
+                            catch (Exception e)
                             {
-                                //TODO add dialog maybe
-                            }
-                            catch (OperationCanceledException)
-                            {
-                                //TODO add dialog maybe
+                                MessageBox.Show("Something went wrong while deleting the file.\n" + e.Message,
+                                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                GifSource = originalGifSource;
                             }
                         },
                         (x) => _logic.HasImages()));
@@ -201,9 +226,11 @@ namespace ImageSorter2._0.ViewModel
                             {
                                 File.Move(info.NewPath, info.OldPath);
                             }
-                            catch (Exception)
+                            catch (Exception e)
                             {
-                                //TODO display exception
+                                MessageBox.Show(
+                                    "Something went wrong while undoing the last command.\n" + e.Message,
+                                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
 
                             _logic.Images.Insert(info.Index, info.OldPath);
@@ -245,13 +272,30 @@ namespace ImageSorter2._0.ViewModel
                                 dest += $"\\{ImageName}.{oldName.Split('.').Last()}";
                             }
 
+                            var originalGifSource = GifSource;
                             try
                             {
-                                File.Move(source, dest);
+                                if (oldName.Split('.').Last() == "gif")
+                                {
+                                    GifSource = null;
+                                }
+
+                                if (File.Exists(dest) && AlwaysOverride)
+                                {
+                                    File.Copy(source, dest, true);
+                                    File.Delete(source);
+                                }
+                                else
+                                {
+                                    File.Move(source, dest);
+                                }
                             }
-                            catch (Exception)
+                            catch (Exception e)
                             {
-                                //TODO display exception
+                                MessageBox.Show("Something went wrong while moving the file.\n" + e.Message,
+                                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                GifSource = originalGifSource;
+                                return;
                             }
 
                             _history.Add(new HistoryObject
@@ -269,7 +313,7 @@ namespace ImageSorter2._0.ViewModel
                         (x) => _logic.HasImages()));
             }
         }
-        
+
         private RelayCommand _deleteDirCommand;
 
         public RelayCommand DeleteDirCommand
@@ -301,6 +345,7 @@ namespace ImageSorter2._0.ViewModel
             _logic = logic;
             Directories = new ObservableCollection<DirectoryModel>(IOUtils.Load());
             _logic.Path = IOManager.ReadSetting("DefaultPath");
+            AlwaysOverride = IOManager.ReadSetting("AlwaysOverride") == "True";
             DirPath = _logic.Path;
             logic.LoadImages();
             SetMetaInfos();
@@ -311,16 +356,27 @@ namespace ImageSorter2._0.ViewModel
         {
             if (_logic.HasImages())
             {
-                var image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.UriSource = new Uri(_logic.GetCurrentImage());
-                image.EndInit();
-                ImageSource = image;
+                var currImage = _logic.GetCurrentImage();
+                if (currImage.EndsWith("gif"))
+                {
+                    ImageSource = null;
+                    GifSource = currImage;
+                }
+                else
+                {
+                    var image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.UriSource = new Uri(currImage);
+                    image.EndInit();
+                    ImageSource = image;
+                    GifSource = null;
+                }
             }
             else
             {
                 ImageSource = null;
+                GifSource = null;
             }
         }
 

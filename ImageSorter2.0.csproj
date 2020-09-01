@@ -57,8 +57,13 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="XamlAnimatedGif, Version=1.2.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>packages\XamlAnimatedGif.1.2.3\lib\net45\XamlAnimatedGif.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\DefaultDirectoryModel.cs" />
     <Compile Include="Model\DirectoryModel.cs" />
     <Compile Include="Model\HistoryObject.cs" />
     <Compile Include="Model\ILogic.cs" />
@@ -142,7 +147,22 @@
     <Page Include="View\Settings.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Images\icon.png" />
+    <Resource Include="View\Images\icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Images\add.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\Images\edit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Images\settings.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

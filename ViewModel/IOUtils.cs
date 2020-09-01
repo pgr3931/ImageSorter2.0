@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Windows;
 using System.Xml.Serialization;
 using ImageSorter2._0.Model;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -22,20 +24,24 @@ namespace ImageSorter2._0.ViewModel
         {
             var path = IOManager.ReadSetting("SaveFilePath") + "\\imageSorterSave.xml";
             var dirs = new List<DirectoryModel>();
+            var oldDirs = new List<DefaultDirectoryModel>();
 
             if (!File.Exists(path)) return dirs;
             try
             {
                 using (var read = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    var xs = new XmlSerializer(dirs.GetType());
-                    dirs = (List<DirectoryModel>) xs.Deserialize(read);
+                    var xs = new XmlSerializer(oldDirs.GetType());
+                    oldDirs = (List<DefaultDirectoryModel>) xs.Deserialize(read);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //TODO display error
+                MessageBox.Show("Something went wrong while loading the directories.\n" + e.Message,
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            dirs.AddRange(oldDirs.Select(defaultDirectoryModel => new DirectoryModel(defaultDirectoryModel)));
 
             return dirs;
         }
@@ -45,16 +51,18 @@ namespace ImageSorter2._0.ViewModel
         {
             try
             {
+                var oldList = list.Select(directoryModel => new DefaultDirectoryModel(directoryModel)).ToList();
                 var path = IOManager.ReadSetting("SaveFilePath") + "\\imageSorterSave.xml";
                 using (TextWriter writer = new StreamWriter(path))
                 {
-                    var sr = new XmlSerializer(list.GetType());
-                    sr.Serialize(writer, list);
+                    var sr = new XmlSerializer(oldList.GetType());
+                    sr.Serialize(writer, oldList);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //TODO display error
+                MessageBox.Show("Something went wrong while saving the directories.\n" + e.Message,
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

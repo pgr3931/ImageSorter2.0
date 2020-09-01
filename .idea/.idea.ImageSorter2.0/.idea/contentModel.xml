@@ -9,6 +9,7 @@
       <e p="ImageSorter2.0.csproj" t="IncludeRecursive" />
       <e p="ImageSorter2.0.sln" t="IncludeFlat" />
       <e p="Model" t="Include">
+        <e p="DefaultDirectoryModel.cs" t="Include" />
         <e p="DirectoryModel.cs" t="Include" />
         <e p="HistoryObject.cs" t="Include" />
         <e p="ILogic.cs" t="Include" />
@@ -20,8 +21,10 @@
           <e p="View" t="Include">
             <e p="AddDirectory.g.cs" t="Include" />
             <e p="App.g.cs" t="Include" />
+            <e p="CreateSubFolder.g.cs" t="Include" />
             <e p="DirectoriesPanel.g.cs" t="Include" />
             <e p="Directory.g.cs" t="Include" />
+            <e p="EditDirectory.g.cs" t="Include" />
             <e p="MainWindow.g.cs" t="Include" />
             <e p="Settings.g.cs" t="Include" />
           </e>
@@ -49,7 +52,10 @@
         <e p="EditDIrectory.xaml" t="Include" />
         <e p="EditDIrectory.xaml.cs" t="Include" />
         <e p="Images" t="Include">
+          <e p="add.png" t="Include" />
+          <e p="edit.png" t="Include" />
           <e p="icon.png" t="Include" />
+          <e p="settings.png" t="Include" />
         </e>
         <e p="MainWindow.xaml" t="Include" />
         <e p="MainWindow.xaml.cs" t="Include" />

@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         MouseDown="WindowMouseDown"
          Title="Create Sub-Folder" Height="200" Width="800" MinHeight="200" MinWidth="800"
+        Icon="Images/add.png"
         Background="{DynamicResource AppBackgroundBrush}">
     <Grid Margin="15" Focusable="True" Name="Grid">
         <Grid.ColumnDefinitions>

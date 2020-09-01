@@ -86,14 +86,13 @@ namespace ImageSorter2._0.ViewModel
                             }
 
                             var index = mainViewModel.Directories.Count;
-                            mainViewModel.Directories.Add(new DirectoryModel
+                            var dirModel = new DirectoryModel
                             {
                                 Name = Name,
                                 Path = DirPath,
                                 Shortcut = "📂" + (string.IsNullOrEmpty(Shortcut) ? "" : " " + Shortcut),
                                 Index = index
-                            });
-
+                            };
 
                             if (!string.IsNullOrEmpty(Shortcut))
                             {
@@ -107,27 +106,23 @@ namespace ImageSorter2._0.ViewModel
                                         out modifier);
                                 }
 
+                                var binding = new KeyBinding
+                                {
+                                    Command = mainViewModel.MoveCommand,
+                                    CommandParameter = index,
+                                    Key = key
+                                };
+                                
                                 if (modifier != ModifierKeys.None)
                                 {
-                                    ((Window) x).Owner.InputBindings.Add(new KeyBinding
-                                    {
-                                        Command = mainViewModel.MoveCommand,
-                                        CommandParameter = index,
-                                        Key = key,
-                                        Modifiers = modifier
-                                    });
+                                    binding.Modifiers = modifier;
                                 }
-                                else
-                                {
-                                    ((Window) x).Owner.InputBindings.Add(new KeyBinding
-                                    {
-                                        Command = mainViewModel.MoveCommand,
-                                        CommandParameter = index,
-                                        Key = key
-                                    });
-                                }
+                                ((Window) x).Owner.InputBindings.Add(binding);
+                                
+                                dirModel.KeyBinding = binding;
                             }
 
+                            mainViewModel.Directories.Add(dirModel);
                             IOUtils.Save(mainViewModel.Directories.ToList());
                             ((Window) x).Close();
                         },

@@ -44,6 +44,58 @@ namespace ImageSorter2._0.ViewModel
                 OnPropertyChanged();
             }
         }
+        
+        private string _undo;
+
+        public string Undo
+        {
+            get => _undo;
+            set
+            {
+                _undo = value;
+                IOManager.AddUpdateAppSettings("Undo", Undo);
+                OnPropertyChanged();
+            }
+        }
+        
+        private string _delete;
+
+        public string Delete
+        {
+            get => _delete;
+            set
+            {
+                _delete = value;
+                IOManager.AddUpdateAppSettings("Delete", Delete);
+                OnPropertyChanged();
+            }
+        }
+        
+        private string _left;
+
+        public string Left
+        {
+            get => _left;
+            set
+            {
+                _left = value;
+                IOManager.AddUpdateAppSettings("Left", Left);
+                OnPropertyChanged();
+            }
+        }
+        
+        private string _right;
+
+        public string Right
+        {
+            get => _right;
+            set
+            {
+                _right = value;
+                IOManager.AddUpdateAppSettings("Right", Right);
+                OnPropertyChanged();
+            }
+        }
 
         private RelayCommand _chooseDefaultDirCommand;
 
@@ -99,6 +151,10 @@ namespace ImageSorter2._0.ViewModel
             AlwaysOverride = IOManager.ReadSetting("AlwaysOverride");
             DefaultPath = IOManager.ReadSetting("DefaultPath");
             SaveFilePath = IOManager.ReadSetting("SaveFilePath");
+            Undo = IOManager.ReadSetting("Undo");
+            Delete = IOManager.ReadSetting("Delete");
+            Left = IOManager.ReadSetting("Left");
+            Right = IOManager.ReadSetting("Right");
         }
     }
 }

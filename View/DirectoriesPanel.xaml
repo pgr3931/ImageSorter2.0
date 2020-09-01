@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl ItemsSource="{Binding Directories}" HorizontalAlignment="Center" HorizontalContentAlignment="Center">
+            <ItemsControl ItemsSource="{Binding Directories}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Name="Directories">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel/>
@@ -24,6 +24,15 @@
                         <local:Directory />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
+                <ItemsControl.Resources>
+                    <Style TargetType="Menu">
+                        <EventSetter Event="PreviewMouseMove" Handler="PreviewMouseMove" />                        
+                    </Style>
+                    <Style TargetType="local:Directory">
+                        <EventSetter Event="Drop" Handler="Drop" />                       
+                        <Setter Property="AllowDrop" Value="True" />      
+                    </Style>
+                </ItemsControl.Resources>
             </ItemsControl>
         </ScrollViewer>
         <Button Grid.Row="1" FontSize="50" Padding="0 -14 0 0" HorizontalAlignment="Right" Margin="0 10 23 5" Click="OpenAddDir" >+</Button>

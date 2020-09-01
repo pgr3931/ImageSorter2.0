@@ -5,20 +5,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:ImageSorter2._0.View"
         mc:Ignorable="d"
-        Title="Settings" Height="450" Width="800" MinHeight="450" MinWidth="800"
+        Title="Settings" Height="800" Width="800" MinHeight="800" MinWidth="800"
+        Icon="Images/settings.png"
         Background="{DynamicResource AppBackgroundBrush}">
-    <Grid Margin="15">
+    <Grid Margin="15" Name="Grid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
+
+        <!-- Always Override -->
         <Border Grid.Column="0" Grid.Row="0" BorderThickness="0 0 0 2" CornerRadius="0">
-            <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0" Content="Always Override Files" />
+            <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0"
+                   Content="Always Override Files" />
         </Border>
         <Border Grid.Column="1" Grid.Row="0" BorderThickness="0 0 0 2" CornerRadius="0">
             <CheckBox VerticalAlignment="Center" IsChecked="{Binding Path=AlwaysOverride, Mode=TwoWay}">
@@ -27,8 +35,11 @@
                 </CheckBox.LayoutTransform>
             </CheckBox>
         </Border>
+
+        <!-- Default Dir -->
         <Border Grid.Column="0" Grid.Row="1" BorderThickness="0 0 0 2" CornerRadius="0">
-            <Label VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="0 0 10 0" Content="Default Image Directory" />
+            <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0"
+                   Content="Default Image Directory" />
         </Border>
         <Border Grid.Column="1" Grid.Row="1" BorderThickness="0 0 0 2" CornerRadius="0">
             <Grid>
@@ -42,15 +53,50 @@
                 <Button Grid.Column="2" Command="{Binding DeleteDefaultDirCommand}">🗑</Button>
             </Grid>
         </Border>
-        <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0" Content="Save File Directory" />
-        <Grid Grid.Column="1" Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0"  MinHeight="50" VerticalAlignment="Center"
-                     Text="{Binding Path=SaveFilePath}" Focusable="False" />
-            <Button Margin="5 0 0 0" Grid.Column="1" Command="{Binding ChooseSaveDirCommand}">📂</Button>
-        </Grid>
+
+        <!-- Save Dir -->
+        <Border Grid.Column="0" Grid.Row="2" BorderThickness="0 0 0 2" CornerRadius="0">
+            <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0"
+                   Content="Save File Directory" />
+        </Border>
+        <Border Grid.Column="1" Grid.Row="2" BorderThickness="0 0 0 2" CornerRadius="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" MinHeight="50" VerticalAlignment="Center"
+                         Text="{Binding Path=SaveFilePath}" Focusable="False" />
+                <Button Margin="5 0 0 0" Grid.Column="1" Command="{Binding ChooseSaveDirCommand}">📂</Button>
+            </Grid>
+        </Border>
+
+        <!-- Undo -->
+        <Border Grid.Column="0" Grid.Row="3" BorderThickness="0 0 0 2" CornerRadius="0">
+            <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0" Content="Undo" />
+        </Border>
+        <Border Grid.Column="1" Grid.Row="3" BorderThickness="0 0 0 2" CornerRadius="0">
+            <TextBox VerticalAlignment="Center" MinHeight="50" Text="{Binding Path=Undo}" PreviewKeyDown="Shortcut" />
+        </Border>
+        
+        <!-- Delete -->
+        <Border Grid.Column="0" Grid.Row="4" BorderThickness="0 0 0 2" CornerRadius="0">
+            <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0" Content="Delete" />
+        </Border>
+        <Border Grid.Column="1" Grid.Row="4" BorderThickness="0 0 0 2" CornerRadius="0">
+            <TextBox VerticalAlignment="Center" MinHeight="50" Text="{Binding Path=Delete}" />
+        </Border>
+        
+        <!-- Left -->
+        <Border Grid.Column="0" Grid.Row="5" BorderThickness="0 0 0 2" CornerRadius="0">
+            <Label VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0" Content="Left" />
+        </Border>
+        <Border Grid.Column="1" Grid.Row="5" BorderThickness="0 0 0 2" CornerRadius="0">
+            <TextBox VerticalAlignment="Center" MinHeight="50" Text="{Binding Path=Left}" />
+        </Border>
+        
+        <!-- Right -->
+        <Label Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 10 0" Content="Right" />
+        <TextBox Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" MinHeight="50" Text="{Binding Path=Right}" />
     </Grid>
 </Window>

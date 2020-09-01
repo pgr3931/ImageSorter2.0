@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         MouseDown="WindowMouseDown"
         Title="Add Directory" Height="450" Width="800" MinHeight="450" MinWidth="800"
+        Icon="Images/add.png"
         Background="{DynamicResource AppBackgroundBrush}">
     <Grid Margin="15" Focusable="True" Name="Grid">
         <Grid.ColumnDefinitions>
