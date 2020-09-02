@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -9,10 +10,8 @@ namespace ImageSorter2._0.View
     public partial class EditDirectory : Window
     {
         private readonly string _originalShortcut;
-        private string _undo;
-        private string _delete;
-        private string _left;
-        private string _right;
+        private readonly List<string> _metaShortcuts;
+
         public EditDirectory(object mainViewModelObject, int i)
         {
             InitializeComponent();
@@ -26,7 +25,23 @@ namespace ImageSorter2._0.View
                 Shortcut = mainViewModel.Directories[i].Shortcut.Split(' ').Last(),
                 Index = i
             };
-            //TODO shotrcuts lesen und speichern -> unten abfragen statt default
+
+            _metaShortcuts = new List<string>()
+            {
+                SetGetMetaShortcut("Undo", "Ctrl+Z"),
+                SetGetMetaShortcut("Delete", "Delete"),
+                SetGetMetaShortcut("Left", "Left"),
+                SetGetMetaShortcut("Right", "Right")
+            };
+        }
+
+        private static string SetGetMetaShortcut(string key, string defaultValue)
+        {
+            var value = IOManager.ReadSetting(key);
+            if (!string.IsNullOrEmpty(value)) return value;
+
+            IOManager.AddUpdateAppSettings(key, defaultValue);
+            return defaultValue;
         }
 
         private void Shortcut(object sender, KeyEventArgs e)
@@ -36,15 +51,12 @@ namespace ImageSorter2._0.View
 
             // Fetch the actual shortcut key.
             var key = (e.Key == Key.System ? e.SystemKey : e.Key);
-            
+
             // Ignore modifier keys.
             if (key == Key.LeftShift || key == Key.RightShift
                                      || key == Key.LeftCtrl || key == Key.RightCtrl
                                      || key == Key.LeftAlt || key == Key.RightAlt
-                                     || key == Key.LWin || key == Key.RWin
-                                     || key == Key.Left || key == Key.Right
-                                     || key == Key.Delete || 
-                                     (key == Key.Z && Keyboard.Modifiers == ModifierKeys.Control))
+                                     || key == Key.LWin || key == Key.RWin)
             {
                 return;
             }
@@ -74,11 +86,15 @@ namespace ImageSorter2._0.View
             {
                 return;
             }
+            if (viewModel.Directories.Any(dir => _metaShortcuts.Contains(dir.Shortcut.Split(' ').Last())))
+            {
+                return;
+            }
 
             // Update the text box.
             ShortcutBox.Text = shortcutText.ToString();
         }
-        
+
         private void WindowMouseDown(object sender, MouseButtonEventArgs e)
         {
             Grid.Focus();

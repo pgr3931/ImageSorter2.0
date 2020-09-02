@@ -25,6 +25,7 @@
             <e p="DirectoriesPanel.g.cs" t="Include" />
             <e p="Directory.g.cs" t="Include" />
             <e p="EditDirectory.g.cs" t="Include" />
+            <e p="InitialSave.g.cs" t="Include" />
             <e p="MainWindow.g.cs" t="Include" />
             <e p="Settings.g.cs" t="Include" />
           </e>
@@ -57,6 +58,8 @@
           <e p="icon.png" t="Include" />
           <e p="settings.png" t="Include" />
         </e>
+        <e p="InitialSave.xaml" t="Include" />
+        <e p="InitialSave.xaml.cs" t="Include" />
         <e p="MainWindow.xaml" t="Include" />
         <e p="MainWindow.xaml.cs" t="Include" />
         <e p="Settings.xaml" t="Include" />
@@ -66,6 +69,7 @@
         <e p="AddDirViewModel.cs" t="Include" />
         <e p="CreateSubViewModel.cs" t="Include" />
         <e p="EditDirViewModel.cs" t="Include" />
+        <e p="InitialSaveViewModel.cs" t="Include" />
         <e p="IOManager.cs" t="Include" />
         <e p="IOUtils.cs" t="Include" />
         <e p="MainViewModel.cs" t="Include" />

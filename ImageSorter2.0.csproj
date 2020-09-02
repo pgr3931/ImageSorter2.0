@@ -72,6 +72,7 @@
     <Compile Include="ViewModel\AddDirViewModel.cs" />
     <Compile Include="ViewModel\CreateSubViewModel.cs" />
     <Compile Include="ViewModel\EditDirViewModel.cs" />
+    <Compile Include="ViewModel\InitialSaveViewModel.cs" />
     <Compile Include="ViewModel\IOManager.cs" />
     <Compile Include="ViewModel\IOUtils.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -95,6 +96,9 @@
     </Compile>
     <Compile Include="View\EditDIrectory.xaml.cs">
       <DependentUpon>EditDirectory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InitialSave.xaml.cs">
+      <DependentUpon>InitialSave.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -140,6 +144,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EditDirectory.xaml" />
+    <Page Include="View\InitialSave.xaml" />
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -22,13 +22,15 @@ namespace ImageSorter2._0.ViewModel
 
         public static List<DirectoryModel> Load()
         {
-            var path = IOManager.ReadSetting("SaveFilePath") + "\\imageSorterSave.xml";
             var dirs = new List<DirectoryModel>();
             var oldDirs = new List<DefaultDirectoryModel>();
 
-            if (!File.Exists(path)) return dirs;
             try
             {
+                var path = IOManager.ReadSetting("SaveFilePath") + "\\imageSorterSave.xml";
+
+                if (!File.Exists(path)) return dirs;
+
                 using (var read = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     var xs = new XmlSerializer(oldDirs.GetType());
@@ -53,6 +55,8 @@ namespace ImageSorter2._0.ViewModel
             {
                 var oldList = list.Select(directoryModel => new DefaultDirectoryModel(directoryModel)).ToList();
                 var path = IOManager.ReadSetting("SaveFilePath") + "\\imageSorterSave.xml";
+                if (path == "\\imageSorterSave.xml") return;
+
                 using (TextWriter writer = new StreamWriter(path))
                 {
                     var sr = new XmlSerializer(oldList.GetType());

@@ -14,6 +14,7 @@ namespace ImageSorter2._0.View
     public partial class MainWindow
     {
         private readonly InputBindingCollection _bindings = new InputBindingCollection();
+        private readonly InputBindingCollection _metaShortcuts = new InputBindingCollection();
 
         public MainWindow()
         {
@@ -34,19 +35,19 @@ namespace ImageSorter2._0.View
 
             var metaShortcut = SetGetMetaShortcut("Undo", "Ctrl+Z");
             GetKeyModifier(metaShortcut.Split('+'), out var metaKey, out var metaModifier);
-            AddBinding(viewModel.UndoCommand, metaKey, metaModifier);
+            _metaShortcuts.Add(AddBinding(viewModel.UndoCommand, metaKey, metaModifier));
 
             metaShortcut = SetGetMetaShortcut("Delete", "Delete");
             GetKeyModifier(metaShortcut.Split('+'), out metaKey, out metaModifier);
-            AddBinding(viewModel.DeleteFileCommand, metaKey, metaModifier);
+            _metaShortcuts.Add(AddBinding(viewModel.DeleteFileCommand, metaKey, metaModifier));
 
             metaShortcut = SetGetMetaShortcut("Left", "Left");
             GetKeyModifier(metaShortcut.Split('+'), out metaKey, out metaModifier);
-            AddBinding(viewModel.PrevCommand, metaKey, metaModifier);
+            _metaShortcuts.Add(AddBinding(viewModel.PrevCommand, metaKey, metaModifier));
 
             metaShortcut = SetGetMetaShortcut("Right", "Right");
             GetKeyModifier(metaShortcut.Split('+'), out metaKey, out metaModifier);
-            AddBinding(viewModel.NextCommand, metaKey, metaModifier);
+            _metaShortcuts.Add(AddBinding(viewModel.NextCommand, metaKey, metaModifier));
 
             DataContext = viewModel;
         }
@@ -101,7 +102,30 @@ namespace ImageSorter2._0.View
             modalWindow.ShowDialog();
             var mainViewModel = (MainViewModel) DataContext;
             mainViewModel.AlwaysOverride = IOManager.ReadSetting("AlwaysOverride") == "True";
+            foreach (InputBinding metaShortcut in _metaShortcuts)
+            {
+                InputBindings.Remove(metaShortcut);
+            }
             
+            _metaShortcuts.Clear();
+            
+            var viewModel = (MainViewModel) DataContext;
+            
+            var newMetaShortcut = SetGetMetaShortcut("Undo", "Ctrl+Z");
+            GetKeyModifier(newMetaShortcut.Split('+'), out var metaKey, out var metaModifier);
+            _metaShortcuts.Add(AddBinding(viewModel.UndoCommand, metaKey, metaModifier));
+            
+            newMetaShortcut = SetGetMetaShortcut("Delete", "Delete");
+            GetKeyModifier(newMetaShortcut.Split('+'), out metaKey, out metaModifier);
+            _metaShortcuts.Add(AddBinding(viewModel.DeleteFileCommand, metaKey, metaModifier));
+            
+            newMetaShortcut = SetGetMetaShortcut("Left", "Left");
+            GetKeyModifier(newMetaShortcut.Split('+'), out metaKey, out metaModifier);
+            _metaShortcuts.Add(AddBinding(viewModel.PrevCommand, metaKey, metaModifier));
+            
+            newMetaShortcut = SetGetMetaShortcut("Right", "Right");
+            GetKeyModifier(newMetaShortcut.Split('+'), out metaKey, out metaModifier);
+            _metaShortcuts.Add(AddBinding(viewModel.NextCommand, metaKey, metaModifier));
         }
 
         private void NameBox_OnGotFocus(object sender, RoutedEventArgs e)
