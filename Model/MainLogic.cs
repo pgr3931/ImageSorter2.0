@@ -33,13 +33,13 @@ namespace ImageSorter2._0.Model
         public void RemoveCurrentImage()
         {
             Images.RemoveAt(CurrentImage);
-            if (CurrentImage == Images.Count || Images.Count == 1)
+            if (Images.Count == 1)
             {
                 CurrentImage = 0;
             }
-            else
+            else if(CurrentImage == Images.Count)
             {
-                CurrentImage++;
+                CurrentImage--;
             }
         }
 

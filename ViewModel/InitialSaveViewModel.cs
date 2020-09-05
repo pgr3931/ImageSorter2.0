@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using ImageSorter2._0.Annotations;
 
 namespace ImageSorter2._0.ViewModel
@@ -46,6 +47,7 @@ namespace ImageSorter2._0.ViewModel
                         (x) =>
                         {
                             IOManager.AddUpdateAppSettings("SaveFilePath", DirPath);
+                            ((Window)x).Close();
                         },
                         (x) => !string.IsNullOrWhiteSpace(DirPath)));
             }
